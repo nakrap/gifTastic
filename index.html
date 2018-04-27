@@ -34,42 +34,48 @@
     <script type="text/javascript">
       
 
-      var cartoon = ["Bugs Bunny", "Tom and Jerry", "Road Runner", "Droopy"];
+      var cartoon = ["Bugs Bunny", "Tom and Jerry", "Road Runner", "Droopy", "Mickey Mouse"];
 
   
       function displayCartoonInfo() {
 
         var cartoons = $(this).attr("data-name");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + cartoons + "&api_key=JnIno7xeSKctvWCwVNMhxVchJImnRJm5"; 
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + cartoons + "&api_key=JnIno7xeSKctvWCwVNMhxVchJImnRJm5&limit=10"; 
         
 
         $.ajax({
           url: queryURL,
           method: "GET"
         }).then(function(response) {
-// console.log(response);
+
             var results = response.data;
-
+            // Loop through the results variable.
             for(i=0; i<results.length; i++){
-// console.log(results[i].rating);
-            
+                // Create a div to display the whole gif.
                 var cartoonDiv = $("<div class='cartoon'>");
-
+                // Find the rating of each gif and add it to the cartoonDiv.
                 var rating = results[i].rating;
-
                 var pOne = $("<p>").text("Rating: " + rating);
-// console.log(pOne);
-
                 cartoonDiv.append(pOne);
+                // Generate the image from giphy and add it to the cartoonDiv.
+                var cartoonGif = results[i].images.fixed_height_still.url;
+                var gif = results[i].images.fixed_height.url;
+                var image = $("<img class='still-image'>");
+                    image.attr("src", cartoonGif);
+                    image.attr('data-gif', gif);
+                    image.attr("class", "image");
+                    image.attr("data-index", i);
+                    image.attr("data-img", image);
+                    console.log(cartoonGif);
 
-                var cartoonGif = results[i].images.fixed_height.url;
-
-                var image = $("<img>").attr("src", cartoonGif);
-                                    // .attr(data-animate; 'results[i].fix_height gif url') STILL
-                                    // .attr(data-animate; 'results[i].fix_height gif url') ANIMATE
-                                    // .attr(data-animate; 'results[i].fix_height gif url') what state it is
                 cartoonDiv.append(image);
 
+                        // $('cartoon').attr()
+                        // .attr(data-animate; 'results[i].fix_height gif url') STILL
+                        // .attr(data-animate; 'results[i].fix_height gif url') ANIMATE
+                        // .attr(data-animate; 'results[i].fix_height gif url') what state it is
+
+                // Add the cartoonDiv to the page by referencing the div id cartoon-view.
                 $("#cartoon-view").prepend(cartoonDiv);
             } 
         });
@@ -77,17 +83,25 @@
       }
 
 
+        $(".gif").on("click", function() {
+            var state = $(this).attr("data-state");
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
+        });
+
         function renderButtons() {
-
             $("#buttons-view").empty();
-
             for (var i = 0; i < cartoon.length; i++) {
-
-            var a = $("<button>");
-            a.addClass("cartoon-btn");
-            a.attr("data-name", cartoon[i]);
-            a.text(cartoon[i]);
-            $("#buttons-view").append(a);
+                var a = $("<button>");
+                a.addClass("cartoon-btn");
+                a.attr("data-name", cartoon[i]);
+                a.text(cartoon[i]);
+                $("#buttons-view").append(a);
             }
         }
 
@@ -95,13 +109,13 @@
             event.preventDefault();
             var cartoons = $("#cartoon-input").val().trim();
             cartoon.push(cartoons);
-
             renderButtons();
         });
 
         $(document).on("click", ".cartoon-btn", displayCartoonInfo);
-
         renderButtons();
+
+
         </script>
   </div>
 </body>
