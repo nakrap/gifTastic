@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>G.O.A.T. Cartoon Characters!</title>
+  <style type="text/css">
+    button,
+    div,
+    form,
+    input {
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>G.O.A.T. Cartoons!</h1>
+
+    <form id="cartoon-form">
+      <label for="cartoon-input">Add a great Cartoon:</label>
+      <input type="text" id="cartoon-input">
+      <br>
+
+      <input id="add-cartoon" type="submit" value="Add a great Cartoon">
+    </form>
+
+    <div id="buttons-view"></div>
+    <div id="cartoon-view"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      
+
+      var cartoon = ["Bugs Bunny", "Tom and Jerry", "Road Runner", "Droopy"];
+
+  
+      function displayCartoonInfo() {
+
+        var cartoons = $(this).attr("data-name");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + cartoons + "&api_key=JnIno7xeSKctvWCwVNMhxVchJImnRJm5"; 
+        
+
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).then(function(response) {
+// console.log(response);
+            var results = response.data;
+
+            for(i=0; i<results.length; i++){
+// console.log(results[i].rating);
+            
+                var cartoonDiv = $("<div class='cartoon'>");
+
+                var rating = results[i].rating;
+
+                var pOne = $("<p>").text("Rating: " + rating);
+// console.log(pOne);
+
+                cartoonDiv.append(pOne);
+
+                var cartoonGif = results[i].images.fixed_height.url;
+
+                var image = $("<img>").attr("src", cartoonGif);
+                                    // .attr(data-animate; 'results[i].fix_height gif url') STILL
+                                    // .attr(data-animate; 'results[i].fix_height gif url') ANIMATE
+                                    // .attr(data-animate; 'results[i].fix_height gif url') what state it is
+                cartoonDiv.append(image);
+
+                $("#cartoon-view").prepend(cartoonDiv);
+            } 
+        });
+
+      }
+
+
+        function renderButtons() {
+
+            $("#buttons-view").empty();
+
+            for (var i = 0; i < cartoon.length; i++) {
+
+            var a = $("<button>");
+            a.addClass("cartoon-btn");
+            a.attr("data-name", cartoon[i]);
+            a.text(cartoon[i]);
+            $("#buttons-view").append(a);
+            }
+        }
+
+        $("#add-cartoon").on("click", function(event) {
+            event.preventDefault();
+            var cartoons = $("#cartoon-input").val().trim();
+            cartoon.push(cartoons);
+
+            renderButtons();
+        });
+
+        $(document).on("click", ".cartoon-btn", displayCartoonInfo);
+
+        renderButtons();
+        </script>
+  </div>
+</body>
+
+</html>
