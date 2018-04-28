@@ -16,12 +16,12 @@
         <div class="jumbotron">
             <div class="container">
                 <h1>G.O.A.T. Cartoons!</h1>
+            </div> 
                 <form id="cartoon-form">
                     <label for="cartoon-input">Add a great Cartoon:</label>
                     <input type="text" id="cartoon-input">
                     <input id="add-cartoon" type="submit" value="Add a great Cartoon">
                 </form>   
-            </div>  
         </div>
 
     <div class="container-fluid">
@@ -37,7 +37,7 @@
     <script type="text/javascript">
       
 
-        var cartoon = ["Bugs Bunny", "Tom and Jerry", "Road Runner", "Droopy", "Mickey Mouse"];
+        var cartoon = ["Bugs Bunny", "Tom and Jerry", "Road Runner", "Droopy", "Mickey Mouse", "Speedy Gonzalez "];
 
         function displayCartoonInfo() {
 
@@ -69,11 +69,6 @@
                         image.attr("data-img", cartoonGif);
                     cartoonDiv.append(image);
 
-                            // $('cartoon').attr()
-                            // .attr(data-animate; 'results[i].fix_height gif url') STILL
-                            // .attr(data-animate; 'results[i].fix_height gif url') ANIMATE
-                            // .attr(data-animate; 'results[i].fix_height gif url') what state it is
-
                     // Add the cartoonDiv to the page by referencing the div id cartoon-view.
                     $("#cartoon-view").prepend(cartoonDiv);
                 } 
@@ -83,12 +78,10 @@
 
 
         $(document).on("click", '.image', function() {
-            //killersGifs.animateGif();
             var currentState = $(this).attr("data-index");
             var animate = $(this).attr("data-gif");
             var still = $(this).attr("data-img");
-            // console.log(currentIn);
-            // console.log(tempUrl);
+
             if ($(this).attr("src") == still) {
                 $(this).attr("src", animate);
             }
