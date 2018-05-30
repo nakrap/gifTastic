@@ -26,12 +26,10 @@ https://nakrap.github.io/gifTastic/
 
 Built With:
 
-HTML
-
-CSS
-
-Bootstrap
-
-AJAX
-
+HTML,
+CSS,
+Bootstrap,
+Javascript,
+JQuery,
+AJAX,
 API
